@@ -46,13 +46,15 @@
 @property(nonatomic) NSMutableArray<UIView *> *tabs;
 - (CGRect)getSelectedSegmentFrame;
 - (void)setTextFont:(UIFont *)textFont withColor:(UIColor *)textColor;
+@property CGFloat horizontalPadding;
+@property CGFloat minimumWidth;
 @end
 
 @implementation MDSegmentedControl {
-  UIView *indicatorView;
-  UIView *beingTouchedView;
-  UIFont *font;
-  MDTabBar *tabBar;
+    UIView *indicatorView;
+    UIView *beingTouchedView;
+    UIFont *font;
+    MDTabBar *tabBar;
 }
 
 - (instancetype)initWithTabBar:(MDTabBar *)bar {
@@ -243,10 +245,10 @@
       itemSize = CGSizeMake(width, height);
     }
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-      itemSize.width += kMDContentHorizontalPaddingIPad * 2;
+    if (itemSize.width + (self.horizontalPadding * 2) > self.minimumWidth)
+        itemSize.width += self.horizontalPadding * 2;
     else
-      itemSize.width += kMDContentHorizontalPaddingIPhone * 2;
+        itemSize.width = self.minimumWidth;
 
     [self setWidth:itemSize.width forSegmentAtIndex:i];
 
@@ -448,6 +450,8 @@
   segmentedControl = [[MDSegmentedControl alloc] initWithTabBar:self];
   [segmentedControl setTintColor:[UIColor clearColor]];
 
+    self.horizontalPadding = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? kMDContentHorizontalPaddingIPad : kMDContentHorizontalPaddingIPhone;
+
   scrollView = [[UIScrollView alloc] init];
   [scrollView setShowsHorizontalScrollIndicator:NO];
   [scrollView setShowsVerticalScrollIndicator:NO];
@@ -617,6 +621,22 @@
 {
   _horizontalInset = horizontalInset;
   [self setNeedsLayout];
+}
+
+- (void)setHorizontalPadding:(CGFloat)horizontalPadding;
+{
+    _horizontalPadding = horizontalPadding;
+    if (segmentedControl != nil)
+        segmentedControl.horizontalPadding = horizontalPadding;
+    [self setNeedsLayout];
+}
+
+- (void)setMinimumWidth:(CGFloat)minimumWidth;
+{
+    _minimumWidth = minimumWidth;
+    if (segmentedControl != nil)
+        segmentedControl.minimumWidth = minimumWidth;
+    [self setNeedsLayout];
 }
 
 - (NSInteger)numberOfItems {

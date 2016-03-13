@@ -52,6 +52,11 @@ IB_DESIGNABLE
 /// inset from the side (default: 8)
 @property(nonatomic, assign) CGFloat horizontalInset;
 
+
+@property(nonatomic, assign) CGFloat horizontalPadding;
+@property(nonatomic, assign) CGFloat minimumWidth;
+
+
 @property(nonatomic) NSUInteger selectedIndex;
 @property(nonatomic, weak) id<MDTabBarDelegate> delegate;
 @property(nonatomic, readonly) NSInteger numberOfItems;

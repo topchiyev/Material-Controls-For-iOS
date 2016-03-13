@@ -73,6 +73,7 @@
     @"TEN"
   ];
   [tabBarViewController setItems:names];
+    tabBarViewController.tabBar.minimumWidth = 100;
 }
 
 - (void)viewDidLoad {
