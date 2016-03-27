@@ -107,7 +107,7 @@ IB_DESIGNABLE
 @property(nonnull, nonatomic) NSLayoutConstraint *textViewHeightConstraint;
 @property(nullable, nonatomic) NSArray<NSString *> *suggestionsDictionary;
 
-@property(nonatomic, weak) id<MDTextFieldDelegate> delegate;
+@property(nonatomic, weak, nullable) id<MDTextFieldDelegate> delegate;
 @property(nonatomic, nullable, readwrite, strong) UIView *inputAccessoryView;
 
 - (float)requiredHeightWithNumberOfTextLines:(NSUInteger)numberOfLines;
